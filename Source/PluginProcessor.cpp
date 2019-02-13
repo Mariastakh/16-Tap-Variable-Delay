@@ -214,7 +214,8 @@ void Delay_multiple_tapsAudioProcessor::processBlock (AudioBuffer<float>& buffer
 	float delayTimeGlobal = *state->getRawParameterValue("setSampleDuration");
 	float delayTimeLocal = *state->getRawParameterValue("PhasorDuration");
 	double gain = *state->getRawParameterValue("setSwitch");
-
+	double pFreq = *state->getRawParameterValue("PhasorSetStart");
+	double pAmp = *state->getRawParameterValue("phasorAmp");
 	
 	vdt = (delayTimeGlobal * 44100);
 	
@@ -250,7 +251,7 @@ void Delay_multiple_tapsAudioProcessor::processBlock (AudioBuffer<float>& buffer
 		
 			// Find the indexes of all of the taps:
 			// by subtracting each tap's delaytime from the write pointer:
-			ind[i] = counter-dt[i]; //  counter -dt[i]; 
+			ind[i] = (counter + phasor) - dt[i]; //  counter -dt[i]; 
 
 			if (ind[i] >= 0 & ind[i] < (10 * 44100))
 			{
