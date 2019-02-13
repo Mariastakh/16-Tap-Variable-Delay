@@ -235,7 +235,7 @@ void Delay_multiple_tapsAudioProcessor::processBlock (AudioBuffer<float>& buffer
 		{
 			counter = 0;
 		}
-		double phasor = (osc1.phasor(0.1) *pAmp); // 10, 10000 * // pAmp
+		//double phasor = (osc1.phasor(0.1) *pAmp); // 10, 10000 * // pAmp
 		//double phasor = (osc1.phasor(0.1) * 1000); // flanger
 
 		outputSignal = 0;// dryLeft + (outputSignal * gain);
