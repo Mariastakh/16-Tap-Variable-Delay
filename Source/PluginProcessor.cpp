@@ -51,6 +51,7 @@ Delay_multiple_tapsAudioProcessor::Delay_multiple_tapsAudioProcessor()
 	dt.resize(16);
 	interpTap.resize(16);
 
+	// For tempo syncing [not implemented yet]
 	clock.setTicksPerBeat(1); //not sure if needed. seems to be MIDI related
 	clock.setTempo(120.0);
 	
@@ -61,7 +62,6 @@ Delay_multiple_tapsAudioProcessor::Delay_multiple_tapsAudioProcessor()
 	for (int i = 0; i < numSamples; i++)
 	{
 		oldBuffer[i] = 0.0;
-		
 	}
 
 	for (int i = 0; i < 16; i++)
@@ -70,10 +70,7 @@ Delay_multiple_tapsAudioProcessor::Delay_multiple_tapsAudioProcessor()
 		ind[i] = 0.0;
 		dt[i] = 0;
 		interpTap[i] = 0.0;
-	
-	}
-
-	
+	}	
 
 }
 
@@ -147,9 +144,9 @@ void Delay_multiple_tapsAudioProcessor::changeProgramName (int index, const Stri
 void Delay_multiple_tapsAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-	//maxSettings.setup(sampleRate, 2, samplesPerBlock);
-//	auto* device = deviceManager.getCurrentAudioDevice();
+    // initialisation that you need.. 
+    //maxSettings.setup(sampleRate, 2, samplesPerBlock);
+`   //auto* device = deviceManager.getCurrentAudioDevice();
 
 	// AudioPlayHead::CurrentPositionInfo info;
 	// getPlayHead()->getCurrentPosition(info);
@@ -188,6 +185,7 @@ bool Delay_multiple_tapsAudioProcessor::isBusesLayoutSupported (const BusesLayou
 
 void Delay_multiple_tapsAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+	// Juce clock: 
 	playHead = this->getPlayHead();
 	playHead->getCurrentPosition(currentPositionInfo);
 	int tempo = currentPositionInfo.bpm;
@@ -217,8 +215,6 @@ void Delay_multiple_tapsAudioProcessor::processBlock (AudioBuffer<float>& buffer
 	double pFreq = *state->getRawParameterValue("PhasorSetStart");
 	double pAmp = *state->getRawParameterValue("phasorAmp");
 	
-	vdt = (delayTimeGlobal * 44100);
-	
 	double dryLeft;
 
 	for (int sample = 0; sample < buffer.getNumSamples(); sample++)
@@ -231,15 +227,20 @@ void Delay_multiple_tapsAudioProcessor::processBlock (AudioBuffer<float>& buffer
 		// Set the current buffer index to the new dry signal:
 		oldBuffer[counter] = dryLeft;
 
+		// Increment the buffer write pointer:
 		counter++;
 		if (counter >= (10.0 * 44100))
 		{
 			counter = 0;
 		}
+		
+		// Get phasor value: this will control playback speed:
 		double phasor = (osc1.phasor(0.1) *pAmp); // 10, 10000 * // pAmp
 		//double phasor = (osc1.phasor(0.1) * 1000); // flanger
 
-		outputSignal = 0;// dryLeft + (outputSignal * gain);
+		// Store the dry signal:
+		outputSignal = dryleft;// + (outputSignal * gain);
+		// Set the location of each tap:
 		for (int i = 0; i < numTaps; i++)
 		{
 			// one issue here is tap indexes exceeding the maximum delaytime index:
