@@ -10,20 +10,17 @@
 
 #pragma once
 #include "maximilian.h"
-#include "libs/maxim.h"
 #include "../JuceLibraryCode/JuceHeader.h"
-
-#include <chrono>
 
 //==============================================================================
 /**
 */
-class Delay_multiple_tapsAudioProcessor  : public AudioProcessor
+class Delay_prototype_pluginAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    Delay_multiple_tapsAudioProcessor();
-    ~Delay_multiple_tapsAudioProcessor();
+    Delay_prototype_pluginAudioProcessor();
+    ~Delay_prototype_pluginAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -58,71 +55,73 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	float pitchShifter(vector<double> &arr, double index)
-	{
-		int x0 = (int)index;
-		int x1 = (int)(index + 1.0);
-		double f0, f1;
-
-		f0 = arr[x0];
-		f1 = arr[x1];
-
-		double result = f0 + ((f1 - f0) * (index - x0));
-
-		return result;
-	}
-
 	// Tree state:
 	AudioProcessorValueTreeState& getState();
 
 private:
+	// Maximilian Objects:
+	maxiOsc osc1, squareOsc, sampledWaveform, timeControl;
+	maxiSample sample1, sample2, sample3, sample4, sample5, sample6, sample7, rhythmSample, volumeSample, freqAmpSample;
+	maxiClock clock;
+	vector<maxiSample> waveTable;
+
+	// Tap timing variables:
+	vector<maxiOsc> t;
+	double tf1, tf2, tf3, tf4, tf5, tf6, ta1, ta2, ta3, ta4, ta5, ta6 = 0.0;
+	vector<bool> sampleTap;
+	vector<int> startPoint;
+	vector<int> storedStartPoint;
+	vector<double> wv;
+	vector<double> rs;
+	vector<double> vs;
+	vector<double> fas;
+	vector<double> tapVolumes;
+
+	int waveUpdateCounter = 0;
+	double wave = 0.0;
+	// Buffer Traversing Variables:
+	double counter = 0;
+	int numSamples;
+	float numSeconds;
+	double outputSignal = 0.0;
+
+	//
+	vector<double> oldBuffer; // the delay line 
+	vector<double> taps; // the actual sample values of each tap
+	vector<double> ind; // the index of each tap
+	vector<int> dt; // the delay time of each tap
+	vector<double> interpTap; // interpolation samples
+
+	// Wave table things:
+	int wavetableSamplingRate = 44100;
+	//double wavetableFrequency = 1.0;
+	double wavetablePhase = 0.0;
+	int table_len = 512;
+	double table[512];
+
+	// Slider Values:
+	int numTaps = 1;
+	float delayTimeGlobal = 0.1;
+	float delayTimeLocal = 0.1;
+	double gain = 0.0;
+	int pitchPatterns = 0;
+	double wavetableFrequency = 1.0;
+	double wavetableAmp = 100.0;
+	int readStart = 0;
+	double feedbackGain = 0.0;
+	double sampledWaveFrequency = 1.0;
+	int bpmValue = 120;
+	int beatDivision = 0;
+	int sampledWaveAmplitude = 44100;
+	int readStartRhythm = 0;
+	float dryWetAmount = 0.5;
+	int whichWave = 0;
+	double dryLeft = 0.0;
+	int singleWavetableLength;
+	
 
 	// Tree stuff:
 	ScopedPointer<AudioProcessorValueTreeState> state;
-
-	maxiSettings maxSettings;
-	maxiOsc osc1, osc2, osc3;
-	maxiSample sample1, sample2;
-	maxiClock clock;
-
-	// each tap has its own counter, 
-	// this is the location of the tap in the buffer:
-	// We initialise the tap to different values:
-	double counter = 0.0;
-	int counter2 = 0;// 9 * 44100;
-	int counter3 = 0;// 7 * 44100;
-
-	/*correspondingly, if we want to change the position of the
-	tap, we move it along the buffer index*/
-
-
-	int bufferIndex;
-	int numSamples;
-	
-	//int desiredSamples;
-	float numSeconds;
-	float dlout;
-	bool resetPhase = false;
-	bool changeTapLocation = false;
-	float previousUserSetPosition = 1.0*44100;
-	float vdt = 1.0 * 44100;
-
-	double vol = 0.3;
-	
-	double outputSignal = 0.0;
-
-
-	vector<double> oldBuffer;
-	vector<double> taps;
-	vector<double> ind;
-	vector<int> dt;
-	int numTaps;
-
-	vector<double> interpTap;
-	double speed = 1.0;
-
-	AudioPlayHead* playHead;
-	AudioPlayHead::CurrentPositionInfo currentPositionInfo;
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Delay_multiple_tapsAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Delay_prototype_pluginAudioProcessor)
 };
