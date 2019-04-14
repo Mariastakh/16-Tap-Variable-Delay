@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -45,26 +35,40 @@ Delay_prototype_pluginAudioProcessorEditor::Delay_prototype_pluginAudioProcessor
 	phasorAmpSlider->setSliderStyle(Slider::SliderStyle::Rotary);
 	phasorAmpSlider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
 	phasorAmpSlider->setColour(Slider::textBoxTextColourId, Colours::black);
-	phasorAmpSlider->setLookAndFeel(&otherLookAndFeel);
+	phasorAmpSlider->setLookAndFeel(&otherLookAndFeelBlue);
 
 	phasorAmpValue = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "phasorAmp", *phasorAmpSlider);
 
 	addAndMakeVisible(phasorAmpLabel = new Label("Phasor Amplitude Label"));
-	phasorAmpLabel->setText("Pitch Shift", dontSendNotification);
-	phasorAmpLabel->setColour(Label::textColourId, Colours::peru);
+	phasorAmpLabel->setText("Pitch A", dontSendNotification);
+	phasorAmpLabel->setColour(Label::textColourId, Colours::blue);
 	//___________________________
 	
+	addAndMakeVisible(pitchFreqSlider = new Slider("pitchFreq"));
+	pitchFreqSlider->setSliderStyle(Slider::SliderStyle::Rotary);
+	pitchFreqSlider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
+	pitchFreqSlider->setColour(Slider::textBoxTextColourId, Colours::black);
+	pitchFreqSlider->setLookAndFeel(&otherLookAndFeelBlue);
+	
+	pitchFreqValue = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "pitchFreq", *pitchFreqSlider);
+
+
+	addAndMakeVisible(pitchFreqLabel = new Label("Pitch Frequency Label"));
+	pitchFreqLabel->setText("Pitch F", dontSendNotification);
+	pitchFreqLabel->setColour(Label::textColourId, Colours::blue);
+	
+	//___________________________
 	addAndMakeVisible(dryWetSlider = new Slider("dryWet"));
 	dryWetSlider->setSliderStyle(Slider::SliderStyle::Rotary);
 	dryWetSlider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
 	dryWetSlider->setColour(Slider::textBoxTextColourId, Colours::black);
-	dryWetSlider->setLookAndFeel(&otherLookAndFeel);
+	dryWetSlider->setLookAndFeel(&otherLookAndFeelBlue);
 
 	dryWetValue = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "dryWet", *dryWetSlider);
 
 	addAndMakeVisible(dryWetLabel = new Label("Dry Wet Label"));
 	dryWetLabel->setText("Dry/Wet", dontSendNotification);
-	dryWetLabel->setColour(Label::textColourId, Colours::peru);
+	dryWetLabel->setColour(Label::textColourId, Colours::blue);
 	//_____________________________
 	
 	addAndMakeVisible(feedbackGainSlider = new Slider("feedbackGain"));
@@ -170,111 +174,7 @@ Delay_prototype_pluginAudioProcessorEditor::Delay_prototype_pluginAudioProcessor
 	bpmLabel->setText("BPM", dontSendNotification);
 	bpmLabel->setColour(Label::textColourId, Colours::peru);
 	//
-	//____________________________
-	// OSCILS:
-	addAndMakeVisible(tf1Slider = new Slider("tf1"));
-	tf1Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	tf1Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	tf1Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	tf1Slider->setLookAndFeel(&otherLookAndFeelBlue);
 
-	tf1Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "tf1", *tf1Slider);
-
-	addAndMakeVisible(tf1Label = new Label("tf1 Label"));
-	tf1Label->setText("TF 1", dontSendNotification);
-	tf1Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
-	
-	addAndMakeVisible(tf2Slider = new Slider("tf2"));
-	tf2Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	tf2Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	tf2Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	tf2Slider->setLookAndFeel(&otherLookAndFeelBlue);
-
-	tf2Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "tf2", *tf2Slider);
-
-	addAndMakeVisible(tf2Label = new Label("tf2 Label"));
-	tf2Label->setText("TF 2", dontSendNotification);
-	tf2Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
-	
-	addAndMakeVisible(tf3Slider = new Slider("tf3"));
-	tf3Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	tf3Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	tf3Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	tf3Slider->setLookAndFeel(&otherLookAndFeelBlue);
-
-	tf3Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "tf3", *tf3Slider);
-
-	addAndMakeVisible(tf3Label = new Label("tf3 Label"));
-	tf3Label->setText("TF 3", dontSendNotification);
-	tf3Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
-	
-	addAndMakeVisible(tf4Slider = new Slider("tf4"));
-	tf4Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	tf4Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	tf4Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	tf4Slider->setLookAndFeel(&otherLookAndFeelBlue);
-
-	tf4Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "tf4", *tf4Slider);
-
-	addAndMakeVisible(tf4Label = new Label("tf4 Label"));
-	tf4Label->setText("TF 4", dontSendNotification);
-	tf4Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
-	
-	addAndMakeVisible(tf5Slider = new Slider("tf5"));
-	tf5Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	tf5Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	tf5Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	tf5Slider->setLookAndFeel(&otherLookAndFeelBlue);
-
-	tf5Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "tf5", *tf5Slider);
-
-	addAndMakeVisible(tf5Label = new Label("tf5 Label"));
-	tf5Label->setText("TF 5", dontSendNotification);
-	tf5Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
-	
-	addAndMakeVisible(tf6Slider = new Slider("tf6"));
-	tf6Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	tf6Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	tf6Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	tf6Slider->setLookAndFeel(&otherLookAndFeelBlue);
-
-	tf6Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "tf6", *tf6Slider);
-
-	addAndMakeVisible(tf6Label = new Label("tf6 Label"));
-	tf6Label->setText("TF 6", dontSendNotification);
-	tf6Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
-
-	addAndMakeVisible(ta1Slider = new Slider("ta1"));
-	ta1Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	ta1Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	ta1Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	ta1Slider->setLookAndFeel(&otherLookAndFeelBlue);
-
-	ta1Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "ta1", *ta1Slider);
-
-	addAndMakeVisible(ta1Label = new Label("ta1 Label"));
-	ta1Label->setText("TA 1", dontSendNotification);
-	ta1Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
-	
-	addAndMakeVisible(ta2Slider = new Slider("ta2"));
-	ta2Slider->setSliderStyle(Slider::SliderStyle::Rotary);
-	ta2Slider->setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-	ta2Slider->setColour(Slider::textBoxTextColourId, Colours::black);
-	ta2Slider->setLookAndFeel(&otherLookAndFeelBlue);
-
-	ta2Value = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "ta2", *ta2Slider);
-
-	addAndMakeVisible(ta2Label = new Label("ta2 Label"));
-	ta2Label->setText("TA 2", dontSendNotification);
-	ta2Label->setColour(Label::textColourId, Colours::peru);
-	//____________________________
 	
 
 	setSize(620, 700);
@@ -316,8 +216,9 @@ void Delay_prototype_pluginAudioProcessorEditor::resized()
 	wavetableFrequencySlider->setBounds(10, 140, 100, 100);
 	wavetableFrequencyLabel->setBounds(35, 245, 80, 30);
 
-	phasorAmpSlider->setBounds(110, 140, 100, 100);
-	phasorAmpLabel->setBounds(115, 245, 100, 30);
+	// Tap Time Slider (rhythm):
+	beatDivisionSlider->setBounds(110, 140, 100, 100);
+	beatDivisionLabel->setBounds(115, 245, 100, 30);
 
 	wavetableAmplitudeSlider->setBounds(210, 140, 100, 100);
 	wavetableAmplitudeLabel->setBounds(230, 245, 110, 30);
@@ -330,35 +231,9 @@ void Delay_prototype_pluginAudioProcessorEditor::resized()
 	dryWetSlider->setBounds(310, 280, 100, 100);
 	dryWetLabel->setBounds(330, 375, 80, 30);
 
-	// Pitch Stepper:
-	beatDivisionSlider->setBounds(10, 280, 100, 100);
-	beatDivisionLabel->setBounds(20, 375, 100, 30);
+	phasorAmpSlider->setBounds(10, 280, 100, 100);
+	phasorAmpLabel->setBounds(20, 375, 100, 30);
 
-	// OSCILS FREQUENCY:
-	tf1Slider->setBounds(10, 400, 100, 100);
-	tf1Label->setBounds(20, 495, 70, 30);
-
-	tf2Slider->setBounds(110, 400, 100, 100);
-	tf2Label->setBounds(120, 495, 70, 30);
-
-	tf3Slider->setBounds(210, 400, 100, 100);
-	tf3Label->setBounds(220, 495, 70, 30);
-
-	tf4Slider->setBounds(10, 520, 100, 100);
-	tf4Label->setBounds(20, 615, 70, 30);
-
-	tf5Slider->setBounds(110, 520, 100, 100);
-	tf5Label->setBounds(120, 615, 70, 30);
-
-	tf6Slider->setBounds(210, 520, 100, 100);
-	tf6Label->setBounds(220, 615, 70, 30);
-	
-	// OSCIL AMPLITUDE:
-	ta1Slider->setBounds(320, 400, 100, 100);
-	ta1Label->setBounds(340, 495, 70, 30);
-
-	ta2Slider->setBounds(320, 520, 100, 100);
-	ta2Label->setBounds(340, 615, 70, 30);
-
-
+	pitchFreqSlider->setBounds(110, 280, 100, 100);
+	pitchFreqLabel->setBounds(105, 375, 70, 30);
 }
