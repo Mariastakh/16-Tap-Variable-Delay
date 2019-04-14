@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -158,28 +148,11 @@ private:
 
 	ScopedPointer<Slider> bpmSlider;
 	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> bpmValue;
+	
+	ScopedPointer<Slider> pitchFreqSlider;
+	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> pitchFreqValue;
 
-	// OSCIL FREQ SLIDERS:
-	ScopedPointer<Slider> tf1Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> tf1Value;
-	ScopedPointer<Slider> tf2Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> tf2Value;
-	ScopedPointer<Slider> tf3Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> tf3Value;
-	ScopedPointer<Slider> tf4Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> tf4Value;
-	ScopedPointer<Slider> tf5Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> tf5Value;
-	ScopedPointer<Slider> tf6Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> tf6Value;
 	//
-	// OSCILLATOR AMPLITUDE SLIDERS:
-	ScopedPointer<Slider> ta1Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> ta1Value;
-	ScopedPointer<Slider> ta2Slider;
-	ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> ta2Value;
-	//
-
 	ScopedPointer<Label> numTapsLabel;
 	ScopedPointer<Label> wavetableFrequencyLabel;
 	ScopedPointer<Label> phasorAmpLabel;
@@ -192,19 +165,7 @@ private:
 	ScopedPointer<Label> sampledWaveAmplitudeLabel;
 	ScopedPointer<Label> beatDivisionLabel;
 	ScopedPointer<Label> bpmLabel;
-
-	// Oscil Labels:
-	ScopedPointer<Label> tf1Label;
-	ScopedPointer<Label> tf2Label;
-	ScopedPointer<Label> tf3Label;
-	ScopedPointer<Label> tf4Label;
-	ScopedPointer<Label> tf5Label;
-	ScopedPointer<Label> tf6Label;
-	//
-	// Oscil Amplitude Labels:
-	ScopedPointer<Label> ta1Label;
-	ScopedPointer<Label> ta2Label;
-	//
+	ScopedPointer<Label> pitchFreqLabel;
 
 	OtherLookAndFeel otherLookAndFeel;
 	OtherLookAndFeelBlue otherLookAndFeelBlue;
