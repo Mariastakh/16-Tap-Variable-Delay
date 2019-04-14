@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #pragma once
 #include "maximilian.h"
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -54,28 +44,30 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
+    
+    //My Functions:
+    double tapTime(int tapIndex);
+	double interpolate(double ind);
+	double tapScalars(int tapIndex);
+	vector<double> getWaveSamples(int a, int f);
+    
 	// Tree state:
 	AudioProcessorValueTreeState& getState();
 
 private:
 	// Maximilian Objects:
 	maxiOsc osc1, squareOsc, sampledWaveform, timeControl;
-	maxiSample sample1, sample2, sample3, sample4, sample5, sample6, sample7, rhythmSample, volumeSample, freqAmpSample;
+	maxiSample sample1, rhythmSample, volumeSample, freqAmpSample;
 	maxiClock clock;
 	vector<maxiSample> waveTable;
 
-	// Tap timing variables:
-	vector<maxiOsc> t;
-	double tf1, tf2, tf3, tf4, tf5, tf6, ta1, ta2, ta3, ta4, ta5, ta6 = 0.0;
-	vector<bool> sampleTap;
-	vector<int> startPoint;
-	vector<int> storedStartPoint;
+	// 
 	vector<double> wv;
 	vector<double> rs;
 	vector<double> vs;
 	vector<double> fas;
 	vector<double> tapVolumes;
+	double secondsInOneBeat;
 
 	int waveUpdateCounter = 0;
 	double wave = 0.0;
@@ -92,6 +84,14 @@ private:
 	vector<int> dt; // the delay time of each tap
 	vector<double> interpTap; // interpolation samples
 
+	double pitchFreqArray[2][16] = { {0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64, 1.28, 2.56, 5.12, 10.24, 20.48, 0.01, 0.02, 0.04, 0.08}, 
+									 {20.48, 10.24, 5.12, 2.56, 1.28, 0.64, 0.32, 0.16, 0.08, 0.04, 0.02, 0.01, 20.48, 10.24, 5.12, 2.56}};
+
+	
+	double pitchAmpArray[2][16] = { {5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0},
+									{503.0, 30.0, 12.0, 5231.9, 2801.7, 3583.6, 30.0, 500.0, 1000.0, 2333.0, 4567.4, 4444.0, 2345.5, 400.0, 758.0, 335.7} };
+									
+									 
 	// Wave table things:
 	int wavetableSamplingRate = 44100;
 	//double wavetableFrequency = 1.0;
@@ -104,7 +104,8 @@ private:
 	float delayTimeGlobal = 0.1;
 	float delayTimeLocal = 0.1;
 	double gain = 0.0;
-	int pitchPatterns = 0;
+	int pitchAmpPatterns = 0;
+	int pitchFreqPatterns = 0;
 	double wavetableFrequency = 1.0;
 	double wavetableAmp = 100.0;
 	int readStart = 0;
